@@ -25,6 +25,12 @@
     "typescript-eslint": "^8.56.1"
   },
   "scripts": {
+    "test": "ENV=dev playwright test",
+    "test:headed": "ENV=dev playwright test --headed",
+    "test:stage": "ENV=stage playwright test",
+    "test:stage:headed": "ENV=stage playwright test --headed",
+    "test:prod": "ENV=prod playwright test",
+    "test:prod:headed": "ENV=prod playwright test --headed",
     "prepare": "node -e \"process.env.CI || require('child_process').execSync('husky', {stdio: 'inherit'})\""
   },
   "keywords": [],

@@ -6,7 +6,7 @@ export class CookieBanner {
 
   constructor(page: Page) {
     this.banner = page.locator('.cookies-banner');
-    this.acceptButton = page.getByText('Ознайомлена/-ний');
+    this.acceptButton = this.banner.getByText('Ознайомлена/-ний');
   }
 
   async accept() {

@@ -145,3 +145,8 @@ vite.config.ts.timestamp-*
 /playwright/.cache/
 /playwright/.auth/
 .claude/
+.env
+
+# Environment configs (contain credentials — never commit)
+envs/.env.*
+!envs/.env.example

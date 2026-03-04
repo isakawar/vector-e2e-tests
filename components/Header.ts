@@ -10,6 +10,13 @@ export class Header {
   readonly kabinetLink: Locator;
   readonly novynyLink: Locator;
 
+  // Authenticated user nav
+  readonly authNav: Locator;
+  readonly userProfileButton: Locator;
+  readonly homeScreenLink: Locator;
+  readonly kabinetAuthButton: Locator;
+  readonly logoutLink: Locator;
+
   readonly kabinetDropdownItems = [
     'Можливості підвищення кваліфікації',
     'Онлайн-курси',
@@ -39,6 +46,15 @@ export class Header {
     'Контакти',
   ] as const;
 
+  readonly userProfileSubmenuItems = ['Про мене', 'Освіта'] as const;
+
+  readonly kabinetAuthSubmenuItems = [
+    'Моніторинг підвищення кваліфікації',
+    'Мої документи',
+    'Уподобання',
+    'Оцінювання 360',
+  ] as const;
+
   constructor(page: Page) {
     this.root = page.locator('header');
     this.logo = this.root.locator('img[alt="Vector"]');
@@ -52,9 +68,33 @@ export class Header {
     this.novynyLink = this.root
       .locator('a.nav-menu-dropdown--link', { hasText: 'Новини' })
       .last();
+
+    // Authenticated nav
+    this.authNav = this.root.locator('.authenticated-nav');
+    this.userProfileButton = this.root.locator(
+      'button.authenticated-nav--link',
+      { hasText: 'Користувацький профіль' },
+    );
+    this.homeScreenLink = this.root.locator('a.authenticated-nav--link', {
+      hasText: 'Домашній екран',
+    });
+    this.kabinetAuthButton = this.root.locator(
+      'button.authenticated-nav--link',
+      { hasText: 'Кабінет професійного зростання' },
+    );
+    this.logoutLink = this.root.locator('a.authenticated-nav--link', {
+      hasText: 'Вийти',
+    });
   }
 
   navDropdownLink(text: string) {
     return this.root.locator('.nav-menu-dropdown--link', { hasText: text });
+  }
+
+  authNavLink(text: string) {
+    return this.root.locator(
+      '.authenticated-nav--link, .authenticated-nav-submenu--link',
+      { hasText: text },
+    );
   }
 }
