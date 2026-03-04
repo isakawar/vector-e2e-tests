@@ -39,6 +39,10 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1400, height: 1032 },
+        headless: false,
+        launchOptions: {
+          // slowMo: 1000
+        },
       },
     },
 

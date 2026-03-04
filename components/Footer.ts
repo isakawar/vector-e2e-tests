@@ -1,7 +1,9 @@
-import type { Page } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 export class Footer {
-  readonly root = this.page.locator('footer');
+  readonly root: Locator;
 
-  constructor(private readonly page: Page) {}
+  constructor(page: Page) {
+    this.root = page.locator('footer');
+  }
 }

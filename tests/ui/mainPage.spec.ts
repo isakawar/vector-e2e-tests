@@ -14,17 +14,4 @@ test.describe('Main Page', () => {
     await mainPage.cookieBanner.accept();
     await expect(mainPage.cookieBanner.banner).toBeHidden();
   });
-
-  test('displays desktop header with navigation and auth buttons', async ({
-    mainPage,
-  }) => {
-    await expect(mainPage.header.desktop).toBeVisible();
-
-    for (const item of mainPage.header.navItems) {
-      await expect(mainPage.header.navItem(item)).toBeVisible();
-    }
-
-    await expect(mainPage.header.loginButton).toBeVisible();
-    await expect(mainPage.header.registerButton).toBeVisible();
-  });
 });

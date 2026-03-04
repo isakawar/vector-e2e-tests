@@ -1,10 +1,13 @@
-import type { Page } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 export class CookieBanner {
-  readonly banner = this.page.locator('.cookies-banner');
-  readonly acceptButton = this.page.getByText('Ознайомлена/-ний');
+  readonly banner: Locator;
+  readonly acceptButton: Locator;
 
-  constructor(private readonly page: Page) {}
+  constructor(page: Page) {
+    this.banner = page.locator('.cookies-banner');
+    this.acceptButton = page.getByText('Ознайомлена/-ний');
+  }
 
   async accept() {
     await this.acceptButton.click();
