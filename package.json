@@ -20,11 +20,21 @@
     "husky": "^9.1.7",
     "jiti": "^2.6.1",
     "lint-staged": "^16.3.2",
+    "playwright-qase-reporter": "^2.2.2",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.56.1"
   },
   "scripts": {
+    "test": "ENV=dev playwright test",
+    "test:headed": "ENV=dev playwright test --headed",
+    "test:stage": "ENV=stage playwright test",
+    "test:stage:headed": "ENV=stage playwright test --headed",
+    "test:prod": "ENV=prod playwright test",
+    "test:prod:headed": "ENV=prod playwright test --headed",
+    "test:qase": "ENV=dev QASE_MODE=testops playwright test",
+    "test:stage:qase": "ENV=stage QASE_MODE=testops playwright test",
+    "test:prod:qase": "ENV=prod QASE_MODE=testops playwright test",
     "prepare": "node -e \"process.env.CI || require('child_process').execSync('husky', {stdio: 'inherit'})\""
   },
   "keywords": [],
