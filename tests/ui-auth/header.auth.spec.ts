@@ -1,4 +1,6 @@
 import { test, expect } from '../../fixtures/base.fixture.js';
+import { NAV_LABELS } from '../../test-data/navigation.js';
+import { URLS } from '../../test-data/urls.js';
 
 test.describe('[Authorized] Header on main page', () => {
   test.describe('Authenticated navigation panel', () => {
@@ -20,7 +22,7 @@ test.describe('[Authorized] Header on main page', () => {
       await test.step('Verify "Домашній екран" link points to dashboard', async () => {
         await expect(mainPage.header.homeScreenLink).toHaveAttribute(
           'href',
-          '/uk/dashboard/home-screen/',
+          URLS.dashboard,
         );
       });
     });
@@ -51,7 +53,7 @@ test.describe('[Authorized] Header on main page', () => {
       await test.step('Verify "Вийти" link points to logout endpoint', async () => {
         await expect(mainPage.header.logoutLink).toHaveAttribute(
           'href',
-          '/uk/accounts/logout/',
+          URLS.logout,
         );
       });
     });
@@ -62,7 +64,7 @@ test.describe('[Authorized] Header on main page', () => {
       mainPage,
     }) => {
       await test.step('Verify all profile submenu links are present in DOM', async () => {
-        for (const link of mainPage.header.userProfileSubmenuItems) {
+        for (const link of NAV_LABELS.userProfileSubmenu) {
           await expect(mainPage.header.authNavLink(link)).toBeAttached();
         }
       });
@@ -74,7 +76,7 @@ test.describe('[Authorized] Header on main page', () => {
       mainPage,
     }) => {
       await test.step('Verify all кабінет submenu links are present in DOM', async () => {
-        for (const link of mainPage.header.kabinetAuthSubmenuItems) {
+        for (const link of NAV_LABELS.kabinetAuthSubmenu) {
           await expect(mainPage.header.authNavLink(link)).toBeAttached();
         }
       });
@@ -104,7 +106,10 @@ test.describe('[Authorized] Header on main page', () => {
       });
 
       await test.step('Verify logo links to homepage', async () => {
-        await expect(mainPage.header.logoLink).toHaveAttribute('href', '/');
+        await expect(mainPage.header.logoLink).toHaveAttribute(
+          'href',
+          URLS.homepage,
+        );
       });
 
       await test.step('Verify "Кабінет" desktop nav link is visible', async () => {

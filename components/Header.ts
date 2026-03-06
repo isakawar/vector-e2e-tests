@@ -17,43 +17,6 @@ export class Header {
   readonly kabinetAuthButton: Locator;
   readonly logoutLink: Locator;
 
-  readonly kabinetDropdownItems = [
-    'Можливості підвищення кваліфікації',
-    'Онлайн-курси',
-    'Проєкти ГХЗВ',
-    'Календар можливостей',
-    "Суб'єкти підвищення кваліфікації",
-    'Заклади освіти',
-    'Центри професійного розвитку',
-    'Документи про підвищення кваліфікації',
-    'Типові програми',
-  ] as const;
-
-  readonly pidtrymkaDropdownItems = [
-    'Довідковий центр Вектор',
-    'Направити звернення',
-    'Онбординг',
-    'Вектор Бот',
-  ] as const;
-
-  readonly proPlatformuDropdownItems = [
-    'Що таке Вектор',
-    'Політика приватності',
-    'Політика Cookies',
-    'Умови використання',
-    'Принципи співпраці',
-    'Контакти',
-  ] as const;
-
-  readonly userProfileSubmenuItems = ['Про мене', 'Освіта'] as const;
-
-  readonly kabinetAuthSubmenuItems = [
-    'Моніторинг підвищення кваліфікації',
-    'Мої документи',
-    'Уподобання',
-    'Оцінювання 360',
-  ] as const;
-
   constructor(page: Page) {
     this.root = page.locator('header');
     this.logo = this.root.locator('img[alt="Vector"]');

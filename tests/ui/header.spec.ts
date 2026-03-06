@@ -1,4 +1,6 @@
 import { test, expect } from '../../fixtures/base.fixture.js';
+import { NAV_LABELS } from '../../test-data/navigation.js';
+import { URLS } from '../../test-data/urls.js';
 
 test.describe('[Non-authorized] Header on main page', () => {
   test('Anon sees the header on the main page', async ({ mainPage }) => {
@@ -22,7 +24,10 @@ test.describe('[Non-authorized] Header on main page', () => {
       });
 
       await test.step('Verify logo link points to homepage', async () => {
-        await expect(mainPage.header.logoLink).toHaveAttribute('href', '/');
+        await expect(mainPage.header.logoLink).toHaveAttribute(
+          'href',
+          URLS.homepage,
+        );
       });
     });
   });
@@ -40,7 +45,7 @@ test.describe('[Non-authorized] Header on main page', () => {
       mainPage,
     }) => {
       await test.step('Verify all dropdown links are present in DOM', async () => {
-        for (const link of mainPage.header.kabinetDropdownItems) {
+        for (const link of NAV_LABELS.kabinet) {
           await expect(mainPage.header.navDropdownLink(link)).toBeAttached();
         }
       });
@@ -52,7 +57,7 @@ test.describe('[Non-authorized] Header on main page', () => {
       mainPage,
     }) => {
       await test.step('Verify all dropdown links are present in DOM', async () => {
-        for (const link of mainPage.header.pidtrymkaDropdownItems) {
+        for (const link of NAV_LABELS.pidtrymka) {
           await expect(mainPage.header.navDropdownLink(link)).toBeAttached();
         }
       });
@@ -64,7 +69,7 @@ test.describe('[Non-authorized] Header on main page', () => {
       mainPage,
     }) => {
       await test.step('Verify all dropdown links are present in DOM', async () => {
-        for (const link of mainPage.header.proPlatformuDropdownItems) {
+        for (const link of NAV_LABELS.proPlatformu) {
           await expect(mainPage.header.navDropdownLink(link)).toBeAttached();
         }
       });
@@ -84,7 +89,7 @@ test.describe('[Non-authorized] Header on main page', () => {
       await test.step('Verify "Новини" link points to /uk/blog/', async () => {
         await expect(mainPage.header.novynyLink).toHaveAttribute(
           'href',
-          '/uk/blog/',
+          URLS.blog,
         );
       });
     });
