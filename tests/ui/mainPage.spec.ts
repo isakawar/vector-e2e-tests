@@ -1,5 +1,5 @@
-import { expect, test } from '../../fixtures/base.fixture.js';
-import { PAGE_TITLES } from '../../test-data/pageTitles.js';
+import { expect, test } from '../../src/fixtures/base.fixture.js';
+import { PAGE_TITLES } from '../../src/test-data/pageTitles.js';
 
 test.describe('[Non-authorized] Main Page', () => {
   test('Anon sees the correct page title', async ({ mainPage }) => {

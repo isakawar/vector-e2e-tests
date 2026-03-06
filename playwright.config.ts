@@ -2,11 +2,11 @@ import { defineConfig, devices } from '@playwright/test';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-// Load envs/.env.<ENV> file (only sets vars not already set — env vars take precedence)
+// Load env/.env.<ENV> file (only sets vars not already set — env vars take precedence)
 const envName = process.env['ENV'] ?? 'dev';
 try {
   const env = readFileSync(
-    join(process.cwd(), 'envs', `.env.${envName}`),
+    join(process.cwd(), 'env', `.env.${envName}`),
     'utf-8',
   );
   for (const line of env.split('\n')) {
@@ -77,7 +77,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1400, height: 1032 },
-        storageState: 'playwright/.auth/user.json',
+        storageState: 'state/.auth/user.json',
       },
     },
   ],
