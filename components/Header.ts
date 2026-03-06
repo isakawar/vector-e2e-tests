@@ -38,7 +38,6 @@ export class Header {
 
   readonly proPlatformuDropdownItems = [
     'Що таке Вектор',
-    'Новини',
     'Політика приватності',
     'Політика Cookies',
     'Умови використання',

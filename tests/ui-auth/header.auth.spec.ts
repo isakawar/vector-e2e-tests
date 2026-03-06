@@ -1,15 +1,6 @@
 import { test, expect } from '../../fixtures/base.fixture.js';
 
-const userProfileSubmenuLinks = ['Про мене', 'Освіта'] as const;
-
-const kabinetAuthSubmenuLinks = [
-  'Моніторинг підвищення кваліфікації',
-  'Мої документи',
-  'Уподобання',
-  'Оцінювання 360',
-] as const;
-
-test.describe('Header on main page (when logged in)', () => {
+test.describe('[Authorized] Header on main page', () => {
   test.describe('Authenticated navigation panel', () => {
     test('User sees the authenticated navigation panel after login', async ({
       mainPage,
@@ -71,7 +62,7 @@ test.describe('Header on main page (when logged in)', () => {
       mainPage,
     }) => {
       await test.step('Verify all profile submenu links are present in DOM', async () => {
-        for (const link of userProfileSubmenuLinks) {
+        for (const link of mainPage.header.userProfileSubmenuItems) {
           await expect(mainPage.header.authNavLink(link)).toBeAttached();
         }
       });
@@ -83,7 +74,7 @@ test.describe('Header on main page (when logged in)', () => {
       mainPage,
     }) => {
       await test.step('Verify all кабінет submenu links are present in DOM', async () => {
-        for (const link of kabinetAuthSubmenuLinks) {
+        for (const link of mainPage.header.kabinetAuthSubmenuItems) {
           await expect(mainPage.header.authNavLink(link)).toBeAttached();
         }
       });
