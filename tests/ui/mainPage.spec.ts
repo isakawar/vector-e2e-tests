@@ -1,11 +1,10 @@
 import { expect, test } from '../../fixtures/base.fixture.js';
+import { PAGE_TITLES } from '../../test-data/pageTitles.js';
 
 test.describe('[Non-authorized] Main Page', () => {
   test('Anon sees the correct page title', async ({ mainPage }) => {
     await test.step('Verify page title matches expected value', async () => {
-      await expect(mainPage.page).toHaveTitle(
-        'Вектор | Національна платформа можливостей професійного розвитку педагогічних працівників',
-      );
+      await expect(mainPage.page).toHaveTitle(PAGE_TITLES.main);
     });
   });
 
