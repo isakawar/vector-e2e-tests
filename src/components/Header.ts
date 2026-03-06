@@ -1,5 +1,11 @@
 import type { Page, Locator } from '@playwright/test';
 
+const SELECTORS = {
+  navDropdownLink: '.nav-menu-dropdown--link',
+  authNavLink: '.authenticated-nav--link',
+  authNavSubmenuLink: '.authenticated-nav-submenu--link',
+} as const;
+
 export class Header {
   readonly root: Locator;
   readonly logo: Locator;
@@ -24,38 +30,38 @@ export class Header {
     this.loginButton = this.root.locator('.btn_login');
     this.registerButton = this.root.locator('.btn_register');
     this.hamburgerMenu = this.root.locator('button.hamburger-menu');
-    this.kabinetLink = this.root.locator('.nav-menu-dropdown--link', {
+    this.kabinetLink = this.root.locator(SELECTORS.navDropdownLink, {
       hasText: 'Кабінет професійного зростання',
     });
     this.novynyLink = this.root
-      .locator('a.nav-menu-dropdown--link', { hasText: 'Новини' })
+      .locator(`a${SELECTORS.navDropdownLink}`, { hasText: 'Новини' })
       .last();
 
     // Authenticated nav
     this.authNav = this.root.locator('.authenticated-nav');
     this.userProfileButton = this.root.locator(
-      'button.authenticated-nav--link',
+      `button${SELECTORS.authNavLink}`,
       { hasText: 'Користувацький профіль' },
     );
-    this.homeScreenLink = this.root.locator('a.authenticated-nav--link', {
+    this.homeScreenLink = this.root.locator(`a${SELECTORS.authNavLink}`, {
       hasText: 'Домашній екран',
     });
     this.kabinetAuthButton = this.root.locator(
-      'button.authenticated-nav--link',
+      `button${SELECTORS.authNavLink}`,
       { hasText: 'Кабінет професійного зростання' },
     );
-    this.logoutLink = this.root.locator('a.authenticated-nav--link', {
+    this.logoutLink = this.root.locator(`a${SELECTORS.authNavLink}`, {
       hasText: 'Вийти',
     });
   }
 
-  navDropdownLink(text: string) {
-    return this.root.locator('.nav-menu-dropdown--link', { hasText: text });
+  navDropdownLink(text: string): Locator {
+    return this.root.locator(SELECTORS.navDropdownLink, { hasText: text });
   }
 
-  authNavLink(text: string) {
+  authNavLink(text: string): Locator {
     return this.root.locator(
-      '.authenticated-nav--link, .authenticated-nav-submenu--link',
+      `${SELECTORS.authNavLink}, ${SELECTORS.authNavSubmenuLink}`,
       { hasText: text },
     );
   }

@@ -1,5 +1,5 @@
-import { test as setup, request } from '@playwright/test';
-import { loginViaApi } from '../helpers/authHelper.js';
+import { test as setup } from '@playwright/test';
+import { ApiClient } from '../../src/client/ApiClient.js';
 
 setup('authenticate via API', async ({ baseURL }) => {
   const email = process.env['TEST_EMAIL'];
@@ -11,7 +11,5 @@ setup('authenticate via API', async ({ baseURL }) => {
     );
   }
 
-  const api = await request.newContext({ baseURL });
-
-  await loginViaApi(api, baseURL, { email, password });
+  await ApiClient.authenticate(baseURL, { email, password });
 });

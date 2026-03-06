@@ -1,47 +1,64 @@
 # Vector E2E Tests
 
-Playwright end-to-end tests for the Vector platform.
-Built with Playwright + TypeScript, covering UI flows for both anonymous and authenticated users.
+Автотести для платформи **Vector**.\
+Тести написані на **Playwright + TypeScript** і покривають:
+
+- UI для анонімних користувачів
+- UI для авторизованих користувачів
+- API-ендпоінти
+
+Проєкт побудований так, щоб тести було легко читати, розширювати і
+підтримувати.
 
 ---
 
-## Stack
+# Стек
 
-- Playwright — test runner and browser automation
-- TypeScript — strict typing
-- Page Object Model — test architecture
-- Qase — test case management
-- ESLint / Prettier / Husky — code quality
+У проєкті використовується:
+
+- **Playwright** --- автоматизація браузера і тест-ранер\
+- **TypeScript** --- strict режим і сучасна конфігурація модулів\
+- **Page Object Model** --- для організації UI тестів\
+- **Controller pattern** --- для API тестів\
+- **Qase** --- управління тест-кейсами\
+- **ESLint + Prettier + Husky** --- автоматична перевірка коду перед
+  комітом
 
 ---
 
-## Getting started
+# Перший запуск
+
+Встанови залежності:
 
 ```bash
 npm install
-npx playwright install --with-deps
 ```
 
-Copy the env template and fill in your values:
+Встанови браузер:
 
 ```bash
-cp envs/.env.dev.example envs/.env.dev
+npx playwright install chromium
 ```
 
-Run tests against dev:
+Скопіюй env файл і заповни свої значення:
+
+```bash
+cp env/.env.example env/.env.dev
+```
+
+Запуск тестів:
 
 ```bash
 npm test
 ```
 
-Other environments:
+Запуск з відкритим браузером (зручно для дебагу):
 
 ```bash
-npm run test:stage
-npm run test:prod
+npm run test:headed
 ```
 
-Open the HTML report after a run:
+Відкрити HTML звіт:
 
 ```bash
 npx playwright show-report
@@ -49,48 +66,116 @@ npx playwright show-report
 
 ---
 
-## Project structure
+# Структура проєкту
 
-```
+```text
 vector-e2e-tests/
-├── components/          # UI component locators (Header, Footer, CookieBanner)
-├── pages/               # Page objects composed from components
-├── fixtures/            # Custom test fixtures — imported instead of @playwright/test
-├── helpers/             # Reusable logic: auth flows, API wrappers
-├── test-data/           # Constants: navigation labels, page titles, URLs
+│
+├── src/
+│   ├── client/
+│   │   └── ApiClient.ts
+│   │
+│   ├── controllers/
+│   │   ├── BaseController.ts
+│   │   └── AuthController.ts
+│   │
+│   ├── pageObjects/
+│   │   ├── BasePage.ts
+│   │   └── MainPage.ts
+│   │
+│   ├── components/
+│   │   ├── Header.ts
+│   │   ├── Footer.ts
+│   │   └── CookieBanner.ts
+│   │
+│   ├── fixtures/
+│   │   └── base.fixture.ts
+│   │
+│   ├── utils/
+│   │   └── dataGenerator.ts
+│   │
+│   └── test-data/
+│       ├── urls.ts
+│       ├── navigation.ts
+│       └── pageTitles.ts
+│
 ├── tests/
-│   ├── auth.setup.ts    # Runs once before authenticated tests
-│   ├── ui/              # Non-authenticated UI specs
-│   ├── ui-auth/         # Authenticated UI specs
-│   └── api/             # API specs (in progress)
-├── utils/               # Data generators, API client
-└── envs/                # Per-environment config (.env.dev, .env.stage, .env.prod)
-```
-
-### Architecture overview
-
-Components contain UI locators and small interaction helpers.  
-Pages compose components into page-level actions.  
-Fixtures provide ready-to-use pages for tests.  
-Test data lives in `test-data/` and is never hardcoded in specs or components.
-
-```
-components/ → pages/ → fixtures/ → tests/
-                                ↑
-                           test-data/
+│   ├── setup/
+│   │   └── auth.setup.ts
+│   │
+│   ├── ui/
+│   ├── ui-auth/
+│   └── api/
+│
+├── env/
+├── playwright.config.ts
+├── tsconfig.json
+└── package.json
 ```
 
 ---
 
-## Authentication
+# Як пов'язані частини фреймворку
 
-Auth is handled via a dedicated setup project that logs in once using the Django CSRF flow and saves the session to `playwright/.auth/user.json`. Authenticated tests reuse this session — no repeated logins.
-
-The setup runs automatically before any test in `tests/ui-auth/`. You don't need to trigger it manually.
-
-Required env vars:
-
+```text
+components
+   ↓
+pageObjects
+   ↓
+fixtures
+   ↓
+tests
 ```
+
+### UI частина
+
+- **components** --- невеликі UI блоки (header, footer, cookie banner)
+- **pageObjects** --- сторінки, що складаються з компонентів
+- **fixtures** --- створюють сторінки для тестів
+- **tests** --- містять тільки тестову логіку
+
+---
+
+### API частина
+
+```text
+controllers
+   ↓
+ApiClient
+   ↓
+tests/api
+```
+
+- **controllers** --- окремі API домени
+- **ApiClient** --- об'єднує всі контролери
+- **tests/api** --- API тести
+
+---
+
+# Авторизація
+
+Авторизація виконується **через API**, без відкриття браузера.
+
+Використовується стандартний **Django CSRF flow**.
+
+Сесія зберігається у:
+
+    state/.auth/user.json
+
+UI-тести з папки `tests/ui-auth/` використовують цей файл і запускаються
+вже з авторизованою сесією.
+
+Setup файл:
+
+    tests/setup/auth.setup.ts
+
+Він запускається автоматично перед тестами.
+
+---
+
+# Необхідні змінні середовища
+
+```dotenv
 BASE_URL=
 TEST_EMAIL=
 TEST_PASSWORD=
@@ -98,39 +183,154 @@ TEST_PASSWORD=
 
 ---
 
-## Environments
+# Середовища
 
-| Script               | Environment |
-| -------------------- | ----------- |
-| `npm test`           | dev         |
-| `npm run test:stage` | stage       |
-| `npm run test:prod`  | prod        |
-
-Each environment reads from `envs/.env.<name>`. Variables set in the shell take precedence over the file.
+Команда Середовище
 
 ---
 
-## Qase integration
+`npm test` dev
+`npm run test:headed` dev
+`npm run test:stage` stage
+`npm run test:prod` prod
 
-To push results to Qase, use the `*:qase` variants:
+Конфігурація читається з:
+
+    env/.env.<environment>
+
+Змінні з CI мають пріоритет над файлами.
+
+---
+
+# Qase інтеграція
+
+Запуск тестів з відправкою результатів у Qase:
 
 ```bash
 npm run test:qase
 npm run test:stage:qase
+npm run test:prod:qase
 ```
 
-Requires `QASE_TESTOPS_API_TOKEN` and `QASE_TESTOPS_PROJECT` to be set in your env file.
+Потрібні змінні:
+
+    QASE_TESTOPS_API_TOKEN
+    QASE_TESTOPS_PROJECT
 
 ---
 
-## CI
+# CI
 
-Tests run on every push and pull request via GitHub Actions.
+Тести запускаються автоматично через **GitHub Actions** при:
+
+- push
+- pull request
+
+Workflow:
+
+    .github/workflows/playwright.yml
 
 ---
 
-## Contributing
+# Як додати нову сторінку
 
-Before opening a PR, check the pull request template checklist — it covers the key things like locator quality, test isolation, and POM compliance.
+### 1. Створи компонент
 
-Local pre-commit hooks handle formatting and linting automatically via Husky.
+```ts
+// src/components/Sidebar.ts
+export class Sidebar {
+  constructor(private page: Page) {}
+
+  navItem(text: string) {
+    return this.page.getByText(text);
+  }
+}
+```
+
+### 2. Створи Page Object
+
+```ts
+export class DashboardPage extends BasePage {
+  readonly sidebar = new Sidebar(this.page);
+}
+```
+
+### 3. Додай фікстуру
+
+```ts
+dashboardPage: async ({ page }, use) => {
+  const dashboardPage = new DashboardPage(page);
+  await dashboardPage.goto('/uk/dashboard/home-screen/');
+  await use(dashboardPage);
+},
+```
+
+### 4. Напиши тест
+
+```ts
+test("User sees sidebar on dashboard", async ({ dashboardPage }) => {
+  await expect(dashboardPage.sidebar.root).toBeVisible();
+});
+```
+
+---
+
+# Як додати новий API контролер
+
+```ts
+export class UserController extends BaseController {
+  async getCurrent() {
+    return this.request.get("/uk/api/users/current/");
+  }
+}
+```
+
+Додай його в `ApiClient`, після цього можна писати API тести.
+
+---
+
+# Тестові дані
+
+Не хардкодь дані у тестах.
+
+Усі:
+
+- URL
+- тексти
+- навігаційні лейбли
+
+зберігаються у:
+
+    src/test-data/
+
+---
+
+# Швидка підказка
+
+Що це Куди класти
+
+---
+
+UI блок `src/components/`
+Page Object `src/pageObjects/`
+API контролер `src/controllers/`
+Константи `src/test-data/`
+Утіліти `src/utils/`
+UI тест `tests/ui/`
+UI тест з логіном `tests/ui-auth/`
+API тест `tests/api/`
+
+---
+
+# Contributing
+
+Перед створенням PR перевір чек-лист у:
+
+    .github/pull_request_template.md
+
+Husky при коміті автоматично запускає:
+
+- Prettier
+- ESLint
+
+Якщо перевірка впала --- виправ помилки і закоміть зміни ще раз.

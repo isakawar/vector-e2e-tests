@@ -1,5 +1,5 @@
 import { test as base } from '@playwright/test';
-import { MainPage } from '../pages/MainPage.js';
+import { MainPage } from '../pageObjects/MainPage.js';
 
 type Fixtures = {
   mainPage: MainPage;

@@ -1,6 +1,6 @@
-import { test, expect } from '../../fixtures/base.fixture.js';
-import { NAV_LABELS } from '../../test-data/navigation.js';
-import { URLS } from '../../test-data/urls.js';
+import { test, expect } from '../../src/fixtures/base.fixture.js';
+import { NAV_LABELS } from '../../src/test-data/navigation.js';
+import { URLS } from '../../src/test-data/urls.js';
 
 test.describe('[Authorized] Header on main page', () => {
   test.describe('Authenticated navigation panel', () => {
