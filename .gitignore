@@ -151,3 +151,4 @@ vite.config.ts.timestamp-*
 # Environment configs (contain credentials — never commit)
 env/.env.*
 !env/.env.example
+/state
