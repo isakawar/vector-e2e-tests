@@ -2,7 +2,10 @@ import { expect } from '@playwright/test';
 import type { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage.js';
 import { CookieBanner } from '../components/CookieBanner.js';
-import type { RegisterUser, StatusOption } from '../utils/userGenerator.js';
+import type {
+  RegisterUser,
+  StatusOption,
+} from '../utils/generators/userGenerator.js';
 
 const STATUS_LABELS: Record<StatusOption, string> = {
   yes: 'Так',

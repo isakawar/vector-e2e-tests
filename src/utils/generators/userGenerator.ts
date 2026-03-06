@@ -15,6 +15,7 @@ export interface RegisterUser {
   region: string;
   settlementType: string;
   settlement: string;
+  inboxId?: string;
 }
 
 const FIRST_NAMES = [
