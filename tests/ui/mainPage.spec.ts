@@ -1,17 +1,27 @@
 import { expect, test } from '../../fixtures/base.fixture.js';
 
 test.describe('Main Page', () => {
-  test('has correct title', async ({ mainPage }) => {
-    await expect(mainPage.page).toHaveTitle(
-      'Вектор | Національна платформа можливостей професійного розвитку педагогічних працівників',
-    );
+  test('User sees the correct page title', async ({ mainPage }) => {
+    await test.step('Verify page title matches expected value', async () => {
+      await expect(mainPage.page).toHaveTitle(
+        'Вектор | Національна платформа можливостей професійного розвитку педагогічних працівників',
+      );
+    });
   });
 
-  test('displays cookies banner and hides it after acceptance', async ({
+  test('User can accept the cookie banner and it disappears', async ({
     mainPage,
   }) => {
-    await expect(mainPage.cookieBanner.banner).toBeVisible();
-    await mainPage.cookieBanner.accept();
-    await expect(mainPage.cookieBanner.banner).toBeHidden();
+    await test.step('Verify cookie banner is visible on page load', async () => {
+      await expect(mainPage.cookieBanner.banner).toBeVisible();
+    });
+
+    await test.step('Accept the cookie banner', async () => {
+      await mainPage.cookieBanner.accept();
+    });
+
+    await test.step('Verify cookie banner is hidden after acceptance', async () => {
+      await expect(mainPage.cookieBanner.banner).toBeHidden();
+    });
   });
 });
